@@ -22,7 +22,6 @@ const Authenticator: React.FC = () => {
     if (IS_ACCESS_TOKEN_NEEDED) option.accessToken = accessToken;
     if (appId && userId) {
       sbCalls.init(appId);
-      console.log("인증 및 세팅 sbCAlls:", sbCalls);
       sbCalls.addDirectCallSound(SoundType.DIALING, "/sounds/Dialing.mp3");
       sbCalls.addDirectCallSound(SoundType.RINGING, "/sounds/Ringing.mp3");
       sbCalls.addDirectCallSound(SoundType.RECONNECTING, "/sounds/Reconnecting.mp3");

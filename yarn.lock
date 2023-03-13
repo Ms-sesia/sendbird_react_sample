@@ -4666,6 +4666,11 @@
   dependencies:
     "stackframe" "^1.1.1"
 
+"eruda@^2.11.2":
+  "integrity" "sha512-WN/o7sKlkOwGUDju0hCwfqvCmGiZFzWAbxT0LF+TA/kuJmcBPoNr0OMrnoEoKJWQqrVzVlZpLON4vegpsoSaPQ=="
+  "resolved" "https://registry.npmjs.org/eruda/-/eruda-2.11.2.tgz"
+  "version" "2.11.2"
+
 "es-abstract@^1.17.2", "es-abstract@^1.18.0-next.1", "es-abstract@^1.18.0-next.2":
   "integrity" "sha512-LJzK7MrQa8TS0ja2w3YNLzUgJCGPdPOV1yVvezjNnS89D+VR08+Szt2mz3YB2Dck/+w5tfIq/RoUAFqJJGM2yw=="
   "resolved" "https://registry.npmjs.org/es-abstract/-/es-abstract-1.18.0.tgz"

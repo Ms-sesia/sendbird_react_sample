@@ -7,6 +7,7 @@ import type { ContextType } from "./context";
 import { reducer } from "./reducer";
 import { initialState } from "./state";
 import { statefyDirectCall, statefyRoom } from "./statefy";
+import eruda from "eruda";
 
 // console.log({ SoundType, sdkVersion });
 
@@ -26,20 +27,25 @@ const SbCallsProvider = ({ appId, children }: { appId: string; children: ReactEl
   const currentCall = useMemo(() => calls.find((call) => !call.isEnded), [calls]);
   const isBusy = useMemo(() => calls.some((call) => !call.isEnded), [calls]);
 
-  const init = useCallback<ContextType["init"]>((nAppId) => {
+  const init = useCallback<ContextType["init"]>(async (nAppId) => {
     const listenerId = "device-change-listener";
     try {
       SendbirdCall.removeListener(listenerId);
     } catch (error) {}
     SendbirdCall.init(nAppId);
-    console.log("listenerId not random?:", listenerId);
     SendbirdCall.setLoggerLevel(LoggerLevel.ERROR);
+
     SendbirdCall.addListener(listenerId, {
-      onRinging: (call: DirectCall) => {
-        console.log("전화왔어!!!!!!!!!!!!");
-      },
+      onRinging: (call: DirectCall) => {},
       onAudioInputDeviceChanged: (current, available) => {
-        dispatch({ type: "UPDATE_AUDIO_INPUT_DEVICE_INFO", payload: { current, available } });
+        console.log("가능한 인풋 오디오:", available);
+        const wannaUseMicInfo = available.find((avail) => avail.label === "Headset earpiece");
+        console.log("내가 원하는 인풋 오디오:", wannaUseMicInfo);
+        if (wannaUseMicInfo) {
+          selectAudioInputDevice(wannaUseMicInfo);
+          // dispatch({ type: "UPDATE_AUDIO_INPUT_DEVICE_INFO", payload: { current: wannaUseMicInfo, available } });
+          // console.log("내가 원하는 오디오로 세팅");
+        } else dispatch({ type: "UPDATE_AUDIO_INPUT_DEVICE_INFO", payload: { current, available } });
       },
       onAudioOutputDeviceChanged: (current, available) => {
         dispatch({ type: "UPDATE_AUDIO_OUTPUT_DEVICE_INFO", payload: { current, available } });
@@ -52,6 +58,7 @@ const SbCallsProvider = ({ appId, children }: { appId: string; children: ReactEl
   }, []);
 
   useEffect(() => {
+    eruda.init();
     if (appId) init(appId);
   }, [appId]);
 
@@ -183,8 +190,7 @@ const SbCallsProvider = ({ appId, children }: { appId: string; children: ReactEl
   };
 
   // console.log("calls", callContext.calls, callContext.calls.length);
-  console.log("sbcalls Provider에는 sbcalls 없음");
-  console.log("calls: ", calls);
+  // console.log("calls: ", calls);
   // console.log("state: ", state);
   return <CallContext.Provider value={callContext}>{children}</CallContext.Provider>;
 };

@@ -56,7 +56,6 @@ function getCallOption(callOption?: DirectCallOption) {
 interface DialViewProps {}
 const DialView: React.FC<DialViewProps> = (props) => {
   const sbCall = useSbCalls();
-  console.log("전화 걸기. sbCall info:", sbCall);
   const [userId, userIdInput] = useTextInput({ id: "userIdInput", initValue: "", placeholder: "Enter user ID" });
   const dial = (isVideoCall: boolean) => {
     sbCall.dial({ userId, isVideoCall, callOption: getCallOption({}) });
